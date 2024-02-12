@@ -11,7 +11,8 @@ import SwiftUI
 struct Assignment3: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            // ContentView()
+            ImageBrowser()
         }
     }
 }

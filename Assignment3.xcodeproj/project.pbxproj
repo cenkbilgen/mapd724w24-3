@@ -13,6 +13,7 @@
 		B30B2BC92B79514800700D6F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30B2BC82B79514800700D6F /* Preview Assets.xcassets */; };
 		B30B2BD02B79515600700D6F /* FlickrService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30B2BCF2B79515600700D6F /* FlickrService.swift */; };
 		B30B2BD22B79554100700D6F /* PhotosState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30B2BD12B79554100700D6F /* PhotosState.swift */; };
+		B30B2BD72B7A81C300700D6F /* ImageBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30B2BD62B7A81C300700D6F /* ImageBrowser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B30B2BCF2B79515600700D6F /* FlickrService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrService.swift; sourceTree = "<group>"; };
 		B30B2BD12B79554100700D6F /* PhotosState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosState.swift; sourceTree = "<group>"; };
 		B30B2BD32B7978BA00700D6F /* JSON.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = JSON.md; sourceTree = "<group>"; };
+		B30B2BD62B7A81C300700D6F /* ImageBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBrowser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				B30B2BCF2B79515600700D6F /* FlickrService.swift */,
 				B30B2BD12B79554100700D6F /* PhotosState.swift */,
 				B30B2BD32B7978BA00700D6F /* JSON.md */,
+				B30B2BD62B7A81C300700D6F /* ImageBrowser.swift */,
 			);
 			path = Assignment3;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				B30B2BD22B79554100700D6F /* PhotosState.swift in Sources */,
 				B30B2BC42B79514600700D6F /* ContentView.swift in Sources */,
 				B30B2BC22B79514600700D6F /* Assignment3.swift in Sources */,
+				B30B2BD72B7A81C300700D6F /* ImageBrowser.swift in Sources */,
 				B30B2BD02B79515600700D6F /* FlickrService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
