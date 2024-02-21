@@ -41,8 +41,32 @@ class PhotosState: ObservableObject {
     }
 
     func downloadPhotoData(photo: FlickrService.Photo) {
-        // really try to download the data and throw any error
-        let data = Data()
-        photoData[photo.id] = data  // move this to when the download is done, in the sink
+        let request = URLRequest(url: photo.url)
+        URLSession.DataTaskPublisher(request: request, session: .shared)
+        // Output: (Data, URLResponse). Failure: URLError
+            .tryMap { data, response in
+                let statusCode = (response as? HTTPURLResponse)?.statusCode
+                guard statusCode == 200 else {
+                    print("Response not OK. \(statusCode?.description ?? "")")
+                    throw URLError(.badServerResponse)
+                    // note: any returned status code is not really a "bad response"
+                    // but keeping things simple
+                    // should make our own HTTPError type and set Failure type to just Error
+                }
+                return data
+            }
+        // Output: Data. Failure: URLError
+            .receive(on: RunLoop.main)
+            .sink { completion in
+                switch completion {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    default: break
+                }
+            } receiveValue: { data in
+                self.photoData[photo.id] = data
+            }
+            .store(in: &cancellables)
     }
+
 }

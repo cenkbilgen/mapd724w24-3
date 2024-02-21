@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageBrowser: View {
-    @StateObject var state = PhotosState()
+    @StateObject var state = PhotosState(maxPhotos: 6)
     @State var index = 0 // the current photo index in the array of photos
 
     @State var scale: CGFloat = 1
@@ -16,6 +16,9 @@ struct ImageBrowser: View {
 
     let dialRadius: CGFloat = 50
     @State var dialAngle: Angle = .zero
+    var photoWedge: Angle { // the angle span of one photo on the
+        Angle(degrees: 360/Double(state.photos.count))
+    }
 
     @Environment(\.displayScale) var displayScale
     // device screen pixel scale (1,2 or 3), needed when displaying a pure CGImage
@@ -40,11 +43,45 @@ struct ImageBrowser: View {
                 (Image(data: photo.data, scale: displayScale) ?? Image(systemName: "photo"))
                     .resizable()
                     .scaledToFit()
-                // TODO: add the gestures (tap, double tap and rotate)
+                    .scaleEffect(scale)
+                    .rotationEffect(angle)
+                    .overlay(alignment: .topTrailing) {
+                        Text(photo.0.owner)
+                            .font(.caption.bold())
+                            .padding()
+                            .background(.thinMaterial)
+                    }
+                    .gesture(
+                        RotateGesture()
+                            .updating($angle) { value, state, _ in
+                                state = value.rotation
+                            }
+                    )
+                    .gesture(
+                        TapGesture(count: 2)
+                            .onEnded { _ in
+                                scale = 1
+                            }
+                    )
+                    .gesture(
+                        TapGesture(count: 1)
+                            .onEnded { _ in
+                                scale = scale * 1.25
+                            }
+                    )
             }
             Spacer()
         }
-        // TODO: add gesture (swipe left-right gesture)
+        .gesture(DragGesture()
+            .onEnded{ value in
+                if value.translation.width < 0 {
+                    index = index + 1 >= state.photos.count ? 0 : index + 1
+                } else {
+                    index = index - 1 < 0 ? state.photos.count - 1 : index - 1
+                }
+                self.dialAngle = Angle(degrees: Double(index)*photoWedge.degrees)
+                print(index)
+            })
         .overlay(alignment: .bottomLeading) {
             Circle()
                 .foregroundStyle(.pink)
@@ -57,7 +94,13 @@ struct ImageBrowser: View {
                 .rotationEffect(dialAngle)
                 .opacity(state.photos.count > 1 ? 1 : 0) // hide if <1 photo
                 .padding()
-                // TODO: add gesture (to turn the dial and update the index)
+                .gesture(DragGesture()
+                    .onChanged { value in
+                        let angle = self.normalizeRadians(angle: atan2(value.location.y-dialRadius, value.location.x-dialRadius))
+                        self.dialAngle = Angle(radians: angle)
+                        self.index = Int(angle/photoWedge.radians)
+                        print(index)
+                    })
         }
     }
 
